@@ -1,0 +1,38 @@
+---
+- name: Check variables
+  assert:
+    that:
+      - sql_scripts is iterable
+
+- name: Create the project directory
+  file:
+    path: '{{ project_dir }}/postgres'
+    state: directory
+
+- name: Copy SQL scripts
+  template:
+    src: '{{ item }}'
+    dest: '{{ project_dir }}/postgres/{{ item | basename }}'
+    mode: 0776
+  loop: '{{ sql_scripts }}'
+
+- name: Create the docker-compose.yml file
+  template:
+    src: 'docker-compose.yml'
+    dest: '{{ project_dir }}/postgres/docker-compose.yml'
+    mode: 0776
+  register: compose_config
+
+- name: Run Docker Compose
+  docker_compose:
+    project_src: '{{ project_dir }}/postgres'
+    restarted: '{{ compose_config is changed }}'
+    state: '{{ state }}'
+    remove_volumes: '{{ remove_volumes }}'
+
+- name: Delete folder is 'state' is absent
+  file:
+    path: '{{ project_dir }}/postgres'
+    state: absent
+  when: 'state == "absent"'
+  

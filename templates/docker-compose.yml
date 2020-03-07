@@ -1,0 +1,33 @@
+version: '3'
+services:
+  postgres:
+    image: {{ postgres_image }}
+    build: {{ project_dir }}/postgres
+    restart: unless-stopped
+    container_name: postgres
+    environment:
+      POSTGRES_USER: {{ postgres_admin_username }}
+      POSTGRES_PASSWORD: {{ postgres_admin_password }}
+      PGDATA: /var/lib/postgresql/data/postgresdata
+{% if postgres_expose_port %}
+    expose:
+      - '{{ postgres_port }}:5432'
+{% endif %}
+    volumes:
+      - {{ postgres_volume }}:/var/lib/postgresql/data/postgresdata
+{% if sql_scripts is defined %}
+{% for sql_script in  sql_scripts %}
+      - {{ sql_script }}:/docker-entrypoint-initdb.d/{{ sql_script }}
+{% endfor %}
+{% endif %}
+{% if external_network is defined %}
+    networks:
+      - {{ external_network }}
+
+networks:
+  {{ external_network }}:
+    external: true
+{% endif %}
+
+volumes:
+  {{ postgres_volume }}:

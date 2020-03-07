@@ -1,0 +1,14 @@
+---
+postgres_version: '12'
+postgres_image: 'postgres:{{ postgres_version }}'
+postgres_hostname: postgres
+postgres_admin_username: postgres
+postgres_admin_password: postgrespass
+postgres_database: postgres
+postgres_expose_port: no
+postgres_port: 5432
+postgres_volume: postgres_data
+project_dir: ./
+sql_scripts: []
+state: present
+remove_volumes: no

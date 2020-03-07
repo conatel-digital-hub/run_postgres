@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  connection: local
+  tags:
+    - 'present'
+  vars: 
+    project_dir: '/tmp/lib'
+    sql_test_1_database_name: sql_test_1
+    sql_test_1_username: sql_test_1
+    sql_test_1_password: sql_test_1
+    sql_test_2_database_name: sql_test_2
+    sql_test_2_username: sql_test_2
+    sql_test_2_password: sql_test_2
+    sql_scripts:
+      - ./tests/sql_script_1.sql
+      - ./tests/sql_script_2.sql
+    state: absent
+  roles:
+    - run_postgres
