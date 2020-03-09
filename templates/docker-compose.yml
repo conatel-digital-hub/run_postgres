@@ -3,7 +3,6 @@ version: '3'
 services:
   postgres:
     image: {{ postgres_image }}
-    build: {{ project_dir }}/postgres
     restart: unless-stopped
     container_name: postgres
     environment:
