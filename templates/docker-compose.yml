@@ -11,6 +11,8 @@ services:
       PGDATA: /var/lib/postgresql/data/postgresdata
 {% if postgres_expose_port %}
     expose:
+      - '{{ postgres_port }}'
+    ports:
       - '{{ postgres_port }}:5432'
 {% endif %}
     volumes:
