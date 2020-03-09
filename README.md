@@ -48,7 +48,7 @@ Then run a `playbook` importing the `role`. The values for the `sql` templates v
 
 ```yaml
 ---
-- hosts: servers
+- hosts: server
   vars_files:
     - secrets.yaml
   roles:

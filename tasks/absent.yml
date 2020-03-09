@@ -6,8 +6,7 @@
 - name: Run Docker Compose down
   docker_compose:
     project_src: '{{ project_dir }}/postgres'
-    restarted: '{{ compose_config is changed }}'
-    state: present
+    state: absent
     remove_volumes: '{{ remove_volumes }}'
   when: result.stat.exists
 

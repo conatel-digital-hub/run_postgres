@@ -1,8 +1,8 @@
 ---
 galaxy_info:
   role_name: run_postgres
-  author: Guzmán Monné
-  description: TDM
+  author: Conatel Digital Hub
+  description:
   company: Conatel S.A.
   license: MIT
   platforms:
