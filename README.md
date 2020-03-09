@@ -16,7 +16,7 @@ Role Variables
 | Variable | Type | Default | Comments | 
 | -------- | ---- | ------- | -------- |
 | `postgres_version` | String | `12` | PostgreSQL version. |
-| `postgres_image` | String | `postgres:{{ postgres_version }}` | PostgreSQL docker image. |
+| `postgres_image` | String | `postgres:12` | PostgreSQL docker image. |
 | `postgres_hostname` | String | `postgres` | PostgreSQL container hostname. |
 | `postgres_admin_username` | String | `postgres` | PostgreSQL admin username. |
 | `postgres_admin_password` | String | `postgres` | PostgreSQL admin password. |
