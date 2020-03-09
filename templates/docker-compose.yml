@@ -19,7 +19,7 @@ services:
       - {{ postgres_volume }}:/var/lib/postgresql/data/postgresdata
 {% if sql_scripts is defined %}
 {% for sql_script in  sql_scripts %}
-      - {{ sql_script }}:/docker-entrypoint-initdb.d/{{ sql_script }}
+      - {{ sql_script }}:/docker-entrypoint-initdb.d/{{ sql_script | basename }}
 {% endfor %}
 {% endif %}
 {% if external_network is defined %}
