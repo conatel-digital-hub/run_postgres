@@ -1,0 +1,20 @@
+{% if item.registry is defined %}
+FROM {{ item.registry.url }}/{{ item.image }}
+{% else %}
+FROM {{ item.image }}
+{% endif %}
+
+ARG testarg=fail
+ENV envarg=$testarg
+
+RUN apt-get update
+RUN apt-get install -y curl apt-transport-https software-properties-common python3-pip gcc python-dev
+RUN curl --fail --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+RUN apt-get update
+RUN apt-get install -y docker-ce
+RUN curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+RUN chmod +x /usr/bin/docker-compose
+RUN pip3 install --upgrade pip
+RUN pip3 install docker
+RUN pip3 install docker-compose

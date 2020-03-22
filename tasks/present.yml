@@ -7,15 +7,29 @@
   template:
     src: '{{ item }}'
     dest: '{{ project_dir }}/postgres/{{ item | basename }}'
-    mode: 0776
+    mode: 0644
   loop: '{{ sql_scripts }}'
 
 - name: Create the docker-compose.yml file
   template:
-    src: 'docker-compose.yml'
+    src: 'docker-compose.yml.j2'
     dest: '{{ project_dir }}/postgres/docker-compose.yml'
-    mode: 0776
+    mode: 0644
   register: compose_config
+
+- name: Create the postgres.service file
+  template:
+    src: 'postgres.service.j2'
+    dest: '/etc/systemd/system/postgres.service'
+    mode: 0644
+  register: compose_config
+
+- name: Start service postgres, if not started
+  service:
+    name: postgres.service
+    state: started
+    enabled: true
+  when: service is defined and service == True
 
 - name: Run Docker Compose up
   docker_compose:
@@ -23,4 +37,6 @@
     restarted: '{{ compose_config is changed }}'
     state: present
     remove_volumes: '{{ remove_volumes }}'
+  when: service is not defined or service == False
+  
   

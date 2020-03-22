@@ -1,0 +1,18 @@
+[Unit]
+Description=PostgresSQL service with Docker Compose
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+
+WorkingDirectory={{ project_dir }}/postgres
+
+# Compose up
+ExecStart=/usr/bin/docker-compose up -d
+
+# Compose down, remove containers and volumes
+ExecStop=/usr/bin/docker-compose stop
+
+[Install]
+WantedBy=multi-user.target

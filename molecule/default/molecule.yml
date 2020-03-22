@@ -4,24 +4,30 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: ubuntu1804
-    image: geerlingguy/docker-ubuntu1804-ansible
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
   - name: ubuntu1604
     image: geerlingguy/docker-ubuntu1604-ansible
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     privileged: true
-    pre_build_image: true
+    pre_build_image: false
+    pull: false
+  - name: ubuntu1804
+    image: geerlingguy/docker-ubuntu1604-ansible
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    pre_build_image: false
+    pull: false
 provisioner:
   name: ansible
   lint:
     enable: True
     name: ansible-lint
+  playbooks:
+    cleanup: cleanup.yml
 verifier:
   name: ansible

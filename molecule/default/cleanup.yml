@@ -1,0 +1,11 @@
+---
+- hosts: all
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    project_dir: /tmp/docker
+    state: absent
+    remove_volumes: yes
+    external_network: postgres_default
+  tasks:
+    - import_role: 
+        name: run_postgres
