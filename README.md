@@ -29,7 +29,7 @@ Role Variables
 | `remove_volumes` | Boolean | `False` | Flag that indicates if the volume related to the database container should be removed after destroying or updating the project. |
 | `service` | String | False | Wether to configure the database as a service or not. |
 | `sql_scripts` | [String] | `[]` | List of SQL scripts to run when the database engine is run for the first time. |
-| `state` | String | `present` | State of the project. If set to `present` the project will run the `docker-compose.yml` file. If set to `absent` it will stop all the containers and remove the `{{project_dir}}/postgres` folder from the server. |
+| `state` | Boolean | `present` | State of the project. If set to `present` the project will run the `docker-compose.yml` file. If set to `absent` it will stop all the containers and remove the `{{project_dir}}/postgres` folder from the server. |
 
 
 Example Playbook
