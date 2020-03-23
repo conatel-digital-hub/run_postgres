@@ -18,7 +18,7 @@
     remove_volumes: '{{ remove_volumes }}'
   when: (service is not defined or service == False) and result.stat.exists
 
-- name: Start service postgres, if not started
+- name: Stop service postgres, if not started
   service:
     name: postgres.service
     state: stopped
