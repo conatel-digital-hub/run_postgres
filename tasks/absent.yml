@@ -1,14 +1,14 @@
 - name: Try to stop the PostgresSQL Service
   block:
-    - name: Start service postgres, if not started
+    - name: Stop postgres service
       service:
         name: postgres.service
         state: started
         enabled: true
-      when: service is defined and service == True
   rescue:
     - debug:
         msg: 'Service not found'
+  when: service is defined and service == True
 
 - name: Check if docker-compose.yml file exists
   stat:
@@ -23,20 +23,13 @@
     remove_volumes: '{{ remove_volumes }}'
   when: (service is not defined or service == False) and result.stat.exists
 
-- name: Stop service postgres, if not started
-  service:
-    name: postgres.service
-    state: stopped
-    enabled: false
-  when: service is defined and service == True
-
-- name: Copy the postgres.service file
+- name: Remove the postgres.service file
   file:
     path: '/etc/systemd/system/postgres.service'
     state: absent
   when: service is defined and service == True
 
-- name: Delete folder is 'state' is absent
+- name: Delete the service folder
   file:
     path: '{{ project_dir }}/postgres'
     state: absent
