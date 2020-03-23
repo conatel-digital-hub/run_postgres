@@ -31,6 +31,7 @@
     name: postgres.service
     state: started
     enabled: true
+    daemon_reload: true
   when: service is defined and service == True
 
 - name: Run Docker Compose up
