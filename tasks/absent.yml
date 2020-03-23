@@ -1,14 +1,35 @@
+- name: Start service postgres, if not started
+  service:
+    name: postgres.service
+    state: started
+    enabled: true
+  when: service is defined and service == True
+
 - name: Check if docker-compose.yml file exists
   stat:
     path: '{{ project_dir }}/postgres/docker-compose.yml'
   register: result
+  when: service is not defined or service == False
 
 - name: Run Docker Compose down
   docker_compose:
     project_src: '{{ project_dir }}/postgres'
     state: absent
     remove_volumes: '{{ remove_volumes }}'
-  when: result.stat.exists
+  when: (service is not defined or service == False) and result.stat.exists
+
+- name: Start service postgres, if not started
+  service:
+    name: postgres.service
+    state: stopped
+    enabled: false
+  when: service is defined and service == True
+
+- name: Copy the postgres.service file
+  file:
+    path: '/etc/systemd/system/postgres.service'
+    state: absent
+  when: service is defined and service == True
 
 - name: Delete folder is 'state' is absent
   file:
