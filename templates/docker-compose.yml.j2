@@ -3,7 +3,7 @@ version: '3'
 services:
   postgres:
     image: {{ postgres_image }}
-    restart: unless-stopped
+    restart: always
     container_name: postgres
     environment:
       POSTGRES_USER: {{ postgres_admin_username }}
