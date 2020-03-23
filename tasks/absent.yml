@@ -1,9 +1,14 @@
-- name: Start service postgres, if not started
-  service:
-    name: postgres.service
-    state: started
-    enabled: true
-  when: service is defined and service == True
+- name: Try to stop the PostgresSQL Service
+  block:
+    - name: Start service postgres, if not started
+      service:
+        name: postgres.service
+        state: started
+        enabled: true
+      when: service is defined and service == True
+  rescue:
+    - debug:
+        msg: 'Service not found'
 
 - name: Check if docker-compose.yml file exists
   stat:
