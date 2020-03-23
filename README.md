@@ -15,6 +15,7 @@ Role Variables
 
 | Variable | Type | Default | Comments | 
 | -------- | ---- | ------- | -------- |
+| `docker_compose_path` | String | `/usr/local/bin/docker-compose` | Path hacia el binario `docker-compose`. |
 | `external_network` | String | | External docker network. Useful to connect the DB to other containers connected to that docker network. |
 | `postgres_admin_password` | String | `postgrespass` | PostgreSQL admin password. |
 | `postgres_admin_username` | String | `postgres` | PostgreSQL admin username. |
